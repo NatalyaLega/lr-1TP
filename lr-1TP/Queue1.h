@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Queue.h"
 
 class sonQueue_private : private parQueue

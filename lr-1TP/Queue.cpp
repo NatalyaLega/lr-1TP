@@ -1,8 +1,9 @@
 #include <iostream>
 #include "Queue.h"
+
 using namespace std;
 
-parQueue::parQueue() //конструктор - инициализация размер и последнего элемент
+parQueue::parQueue() //конструктор - инициализируем размер и последний элементы
 {
 	size = 0;
 	last = nullptr;
@@ -10,7 +11,7 @@ parQueue::parQueue() //конструктор - инициализация размер и последнего элемент
 
 parQueue::~parQueue() //деструктор
 {
-	while (size > 0) //пока размер > 0
+	while (size > 0) //пока размер больше нуля
 	{
 		Unit* temp = last; //временной переменной присваиваем значение последнего
 		last = temp->prev; //последняя становится "предыдущей"
@@ -19,7 +20,7 @@ parQueue::~parQueue() //деструктор
 	}
 }
 
-Unit* parQueue::get_last()  //возвр. последний элемент
+Unit* parQueue::get_last()
 {
 	return last;
 }
@@ -38,8 +39,8 @@ int parQueue::pop()
 		size--; //уменьшаем размер
 	}
 	else
-	{	// в последнем содержится указатель на "следующий" элемент очереди, но не на последний
-		while (tmp->prev->prev != nullptr) //идем по элементам до "второго" в очереди
+	{ 
+		while (tmp->prev->prev != nullptr) //поэтому идем по элементам до "второго" в очереди
 		{
 			tmp = tmp->prev;
 		}
@@ -51,7 +52,7 @@ int parQueue::pop()
 	return deldata;
 }
 
-void parQueue::push(int el)  //добавление элемента
+void parQueue::push(int el)
 {
 	Unit* new_unit = new Unit; //выделяем память под новый элемент
 	new_unit->prev = last; //указатель нового элемента указывает на последний в очереди
@@ -60,10 +61,9 @@ void parQueue::push(int el)  //добавление элемента
 	size++;
 }
 
-void parQueue::print() //вывод
+void parQueue::print()
 {
 	Unit* tmp = last;
-
 	while (tmp->prev != nullptr)
 	{
 		cout << tmp->data << " --> "; //выводим значения (с конца), пока указатель на следующий элемент не будет нулевым
@@ -72,11 +72,10 @@ void parQueue::print() //вывод
 	cout << tmp->data << endl; //вывели последний элемент
 }
 
-void parQueue::copy(parQueue& Q) // копирование очереди
+void parQueue::copy(parQueue& Q) //метод копирования очереди
 {
 	int* buff = new int[Q.size]; //создаем буферный массив
 	Unit* el_queue = Q.last; //создаем переменную очереди
-
 	for (int i = Q.size - 1; i >= 0; i--)
 	{
 		buff[i] = el_queue->data; //во временный массив заносим данные от "конца" текущей очереди
@@ -87,30 +86,27 @@ void parQueue::copy(parQueue& Q) // копирование очереди
 	{
 		this->push(buff[i]);
 	}
-
-	delete[] buff;  
+	delete[] buff;
 }
 
-void parQueue::merge(parQueue& Q1) //слияние 2х очередей
+void parQueue::merge(parQueue& Q1)
 {
 	int* buff1 = new int[Q1.size];
 	Unit* el_queue1 = Q1.last;
-
 	for (int i = Q1.size - 1; i >= 0; i--)
 	{
 		buff1[i] = el_queue1->data;
 		el_queue1 = el_queue1->prev;
 	}
-
-	for (int i = 0; i < Q1.size; i++)
+    for (int i = 0; i < Q1.size; i++)
 	{
 		this->push(buff1[i]);
 	}
 	delete[] buff1;
-	cout << "Слияние успешно завершено!" << endl;
+	cout << "Слияние завершено!" << endl;
 }
 
-bool parQueue::isEmpty() //проверка
+bool parQueue::isEmpty()
 {
 	if (size == 0)
 	{
